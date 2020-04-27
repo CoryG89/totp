@@ -12,12 +12,14 @@ import (
 	"crypto/sha1"
 	"encoding/base32"
 	"encoding/binary"
+	"flag"
 	"fmt"
 	"os"
 	"strings"
 	"time"
 	"unsafe"
 )
+
 
 func FindPassword(serverName string) string {
 	var cpasslen C.UInt32
@@ -70,6 +72,11 @@ func Totp(secret string) string {
 
 func main() {
 	pathname := os.Args[1]
+    var term = flag.Int("term", "\n", "string terminal character")
+    
+	fmt.Println("ip has value ", *ip)
+    
+    
 	if len(pathname) == 0 {
 		return
 	}
@@ -80,5 +87,9 @@ func main() {
 	}
 
 	totp := Totp(secret)
-	fmt.Println(totp)
+    
+    if term == "\n" {
+       fmt.Println(totp)
+    }
+    fmt.Printf("%s%s", totp, term)
 }
